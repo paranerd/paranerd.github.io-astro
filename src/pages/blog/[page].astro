@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import { type InferGetStaticParamsType, type InferGetStaticPropsType, type GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getCollection('blog', ({ data }) => {
+    return data.draft !== true;
+  });
+
+  return paginate(posts, { pageSize: 2 });
+}) satisfies GetStaticPaths;
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+---
+
+<!--Display the current page number. Astro.params.page can also be used!-->
+<h1>Page {page.currentPage}</h1>
+<p>{ JSON.stringify(page) }</p>
+<ul>
+  <!--List the array of astronaut info-->
+  {page.data.map((post) => <li><a href={`/blog/${post.slug}`}>{post.data.title}</a></li>)}
+</ul>

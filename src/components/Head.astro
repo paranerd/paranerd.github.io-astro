@@ -1,0 +1,16 @@
+---
+const { pageTitle } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<meta name="description" content="The German Coder {{ if .Params.description }}{{ .Params.description }}{{ else }}Homepage{{ end }}">
+
+<title>
+  {currentPath === '/' ? 'The German Coder' : `${pageTitle} | The German Coder`}
+</title>
+
+<!-- Favicons -->
+<link rel="shortcut icon" href="/favicon-32x32.png" type="image/x-icon" />
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-114x114.png" />
+<link rel="icon" sizes="192x192" href="/favicon-57x57.png" />

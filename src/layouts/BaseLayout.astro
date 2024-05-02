@@ -1,0 +1,30 @@
+---
+import Head from '@components/Head.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import '@styles/main.scss';
+import '@styles/nav-icon.scss';
+import '@styles/copy-code.scss';
+const pageTitle = Astro.props.pageTitle ?? '';
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- General header -->
+    <Head pageTitle={pageTitle}/>
+
+    <script src="../ts/filter.ts"></script>
+    <script src="../ts/copy-code.ts"></script>
+    <script src="../ts/main.ts"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <Header/>
+
+    <!-- Main -->
+    <slot />
+
+    <!-- Footer -->
+    <Footer/>
+  </body>
+</html>

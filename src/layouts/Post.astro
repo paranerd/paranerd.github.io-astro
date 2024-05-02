@@ -1,0 +1,121 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Masthead from '@components/Masthead.astro';
+const { frontmatter } = Astro.props;
+---
+<BaseLayout pageTitle={ frontmatter.title }>
+  <Masthead title={ frontmatter.title } cover={ frontmatter.cover }/>
+
+  <main class="single-post">
+    <!-- Post content -->
+    <div class="post-content">
+      <!-- Paginator -->
+      <!--<div>
+        <div class="post-nav">
+          
+          {{ with .PrevInSection }}
+            <span class="prev-arrow">&#8249;</span>
+            <a class="previous" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+          {{ end }}
+          
+          {{ with .NextInSection }}
+          <span class="spacer"></span>
+            <a class="next" href="{{ .RelPermalink }}">{{ .LinkTitle }} </a>
+            <span class="next-arrow">&#8250;</span>
+          {{ end }}
+        </div>
+      </div>-->
+  
+      <!-- Table of Contents (small screens) -->
+      <!--{{- $headers := findRE "<h[1-6].*?>(.|\n])+?</h[1-6]>" .Content -}}
+      {{- $has_headers := ge (len $headers) 2 -}}
+      {{- if $has_headers -}}
+        <aside class="toc-sm">
+          <div class="collapser collapsed" data-target="toc-sm-content"></div>
+          <h3>Table of Contents</h3>
+          <div id="toc-sm-content" class="collapsible collapsed">
+            {{ .TableOfContents }}
+          </div>
+        </aside>
+      {{- end }}-->
+  
+      <!-- Content -->
+      <div data-pagefind-body>
+        <slot/>
+      </div>
+  
+      <!-- Paginator -->
+      <!--<div>
+        <div class="post-nav">
+          
+          {{ with .PrevInSection }}
+            <span class="prev-arrow">&#8249;</span>
+            <a class="previous" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+          {{ end }}
+          
+          {{ with .NextInSection }}
+          <span class="spacer"></span>
+            <a class="next" href="{{ .RelPermalink }}">{{ .LinkTitle }} </a>
+            <span class="next-arrow">&#8250;</span>
+          {{ end }}
+        </div>
+      </div>
+    </div>-->
+  
+    <!-- Table of Contents (large screens) -->
+    <!--{{- if $has_headers -}}
+    <aside class="toc-lg">
+      <h3>Table of Contents</h3>
+      {{ .TableOfContents }}
+    </aside>
+    {{- end }}-->
+  </main>
+  <script>
+    document.addEventListener(
+  'DOMContentLoaded',
+  () => {
+    setupCopyButtons();
+  });
+
+    function setupCopyButtons() {
+  console.log('setting up');
+  document.querySelectorAll('pre > code').forEach((codeblock) => {
+    const container = codeblock.parentNode?.parentNode as HTMLElement;
+
+    const copybutton = document.createElement('button');
+    copybutton.classList.add('copy-code', 'light');
+    copybutton.innerText = 'Copy';
+
+    function copyingDone() {
+      copybutton.innerText = 'Copied!';
+      setTimeout(() => {
+        copybutton.innerText = 'Copy';
+      }, 2000);
+    }
+
+    copybutton.addEventListener('click', () => {
+      if ('clipboard' in navigator) {
+        navigator.clipboard.writeText(codeblock.textContent ?? '');
+        copyingDone();
+      }
+    });
+
+    if (container?.classList.contains('highlight')) {
+      container.appendChild(copybutton);
+    } else if (container?.parentNode?.firstChild == container) {
+      // td containing LineNos
+    } else if (
+      codeblock.parentNode?.parentNode?.parentNode?.parentNode?.parentNode?.nodeName == 'TABLE'
+    ) {
+      // table containing LineNos and code
+      codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(
+        copybutton
+      );
+    } else {
+      // code blocks not having highlight as parent class
+      codeblock.parentNode?.appendChild(copybutton);
+    }
+  });
+}
+  </script>
+</BaseLayout>

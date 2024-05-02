@@ -1,0 +1,16 @@
+---
+const { title, credit, cover } = Astro.props;
+---
+
+<div id="masthead-section">
+  <h1>{ title }</h1>
+
+  <img src={ cover.src }/>
+
+  { credit &&
+  <span class="image-credit">
+    Image by
+    <a href={ credit.url }>{ credit.author }</a></a>
+  </span>
+  }
+</div>
